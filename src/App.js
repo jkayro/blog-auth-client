@@ -1,23 +1,23 @@
-import React from "react";
-import './index.css';
+import React, { useState } from "react";
+import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
+import Home from "./components/Home";
+import AppMenu from './components/AppMenu';
+import CreateUser from './components/CreateUser';
+import EditUser from "./components/EditUser";
+import RequestPassword from "./components/RequestPassword";
+import ResetPassword from "./components/ResetPassword";
+import Login from "./components/Login";
+import Logout from "./components/Logout";
+import ListArticles from "./components/ListArticles";
+import CreateArticle from "./components/CreateArticle";
+import ViewArticle from "./components/ViewArticle";
+import EditArticle from "./components/EditArticle";
+
 import 'primereact/resources/themes/saga-blue/theme.css'
 import 'primereact/resources/primereact.min.css'
 import 'primeicons/primeicons.css'
 import 'primeflex/primeflex.css';
-import { useState } from 'react';
-import AppMenu from './components/AppMenu';
-import CreateUser from './components/CreateUser';
-import Login from "./components/Login";
-import Logout from "./components/Logout";
-import ListArticles from "./components/ListArticles";
-import ViewArticle from "./components/ViewArticle";
-import EditArticle from "./components/EditArticle";
-import CreateArticle from "./components/CreateArticle";
-import RequestPassword from "./components/RequestPassword";
-import ResetPassword from "./components/ResetPassword";
-import EditUser from "./components/EditUser";
-import Home from "./components/Home";
-import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
+import './index.css';
 
 function App() {
 
