@@ -35,10 +35,11 @@ function App() {
   let [email, setEmail] = useState(getSessionOrDefault('email', ''));
   
   //ALTERAR EM PRODUÇÃO
-  const baseUrl = 'http://localhost:3001';
+  //const baseUrl = 'http://localhost:3001';
+  const baseUrl = 'https://auth-api-blog.herokuapp.com';
 
   return (
-    <Router>
+    <Router basename={process.env.PUBLIC_URL}>
       <div className="p-grid p-justify-center nested-grid">
         <div className="p-col-2"></div>
         <div className="p-col-8" style={{padding: 1 }}>
