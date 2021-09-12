@@ -21,4 +21,6 @@ O frontend permite:
 
 `$ git clone https://github.com/jkayro/blog-auth-client.git`
 
+`cd blog-auth-client`
+
 `$ yarn install`
