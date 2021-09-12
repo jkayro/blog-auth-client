@@ -29,9 +29,9 @@ O frontend permite:
 
 <https://eloquent-austin-a87d15.netlify.app/>
 
-Se tiver a intenção de ver o projeto na íntegra e não quiser cadastrar
-um usuário, use o usuário: jk.pamio@gmail.com e a senha: ek12k13
+Usuário: jk.pamio@gmail.com 
+Senha: ek12k13
 
-Neste usuário já tem artigos criados.
+Ou crie um usuário.
 
 .
