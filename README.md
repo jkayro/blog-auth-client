@@ -1,4 +1,4 @@
-# Fontend React para consumir a API de autenticação Rails criada com device-token-auth
+### Fontend React para consumir a API de autenticação Rails criada com device-token-auth
 
 O frontend permite:
 
@@ -15,10 +15,10 @@ O frontend permite:
 
 ### O projeto da API
 
-$ `git clone https://github.com/jkayro/blog-auth-api.git`
+`$ git clone https://github.com/jkayro/blog-auth-api.git`
 
 ### O projeto do forntend
 
-$ `git clone https://github.com/jkayro/blog-auth-client.git`
+`$ git clone https://github.com/jkayro/blog-auth-client.git`
 
-`yarn install`
+`$ yarn install`
