@@ -21,6 +21,4 @@ $ `git clone https://github.com/jkayro/blog-auth-api.git`
 
 $ `git clone https://github.com/jkayro/blog-auth-client.git`
 
-### `yarn install`
-
-Kayro
+`yarn install`
