@@ -34,4 +34,5 @@ Senha: ek12k13
 
 Ou crie um usuário.
 
-.
+_OBS.: O sistema pode demorar uns 15 segundos para fazer o primeiro login_
+_pois a API fica dormindo no Heroku depois de um tempo sem acesso_
