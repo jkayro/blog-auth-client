@@ -29,8 +29,7 @@ O frontend permite:
 
 <https://eloquent-austin-a87d15.netlify.app/>
 
-Usuário: taggrafia@gmail.com\ 
-Senha: ek12k13
+Usuário: taggrafia@gmail.com / Senha: ek12k13
 
 Ou crie um usuário.
 
