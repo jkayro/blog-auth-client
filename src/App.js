@@ -10,6 +10,7 @@ import ResetPassword from "./components/ResetPassword";
 import Login from "./components/Login";
 import Logout from "./components/Logout";
 import ListArticles from "./components/ListArticles";
+import ListUserArticles from "./components/ListUserArticles";
 import CreateArticle from "./components/CreateArticle";
 import ViewArticle from "./components/ViewArticle";
 import EditArticle from "./components/EditArticle";
@@ -35,9 +36,9 @@ function App() {
   let [accessToken, setAccessToken] = useState(getSessionOrDefault('accessToken', ''));
   let [email, setEmail] = useState(getSessionOrDefault('email', ''));
   
-  //ALTERAR EM PRODUÇÃO
-  //const baseUrl = 'http://localhost:3001';
-  const baseUrl = 'https://auth-api-blog.herokuapp.com';
+
+    const baseUrl = 'http://localhost:3001';
+    //const baseUrl = 'https://auth-api-blog.herokuapp.com';
 
   return (
     <Router basename={process.env.PUBLIC_URL}>
@@ -104,7 +105,14 @@ function App() {
           <Route path="/list-articles">
             <div className="p-col-2"></div>
             <div className="p-col-8">
-              <ListArticles 
+              <ListArticles baseUrl={baseUrl} />  
+            </div>
+            <div className="p-col-2"></div>
+          </Route> 
+          <Route path="/list-user-articles">
+            <div className="p-col-2"></div>
+            <div className="p-col-8">
+              <ListUserArticles 
                 baseUrl={baseUrl} 
                 email={email}
                 client={client}
@@ -118,9 +126,7 @@ function App() {
             <div className="p-col-8">
             <ViewArticle 
                 baseUrl={baseUrl} 
-                email={email}
-                client={client}
-                accessToken={accessToken}
+                isAuthenticated={isAuthenticated} 
             />
             </div>
             <div className="p-col-2"></div>
@@ -161,7 +167,9 @@ function App() {
                 setAccessToken={setAccessToken}
               />  
           </Route> 
-          <Route exact path="/" render={() => { return (<Redirect to="/home" />) }} />
+          <Route exact path="/" render={() => {
+             return (!isAuthenticated ? <Redirect to="/list-articles" /> : <Redirect to="/list-user-articles" />) 
+          }} />
         </Switch>
     </div>
     </Router>

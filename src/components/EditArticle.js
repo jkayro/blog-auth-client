@@ -90,14 +90,14 @@ const EditArticle = ({ email, client, accessToken, baseUrl }) => {
                 },
             }).then(function(response) {
                 if (response.ok) {
-                    history.push('/list-articles');
+                    history.push('/list-user-articles');
                 }
                 return response.json();
             });
         }
     };
 
-    const handleReturn = useCallback(() => history.push('/list-articles'), [history]);
+    const handleReturn = useCallback(() => history.push('/list-user-articles'), [history]);
 
     return (
         <>

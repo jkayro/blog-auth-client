@@ -25,7 +25,7 @@ const AppMenu = ({ authenticated }) => {
             label: 'Artigos',
             icon: 'pi pi-book',
             command: (event) => {
-                history.push("/list-articles");
+                history.push("/list-user-articles");
             }
         },
         {
@@ -42,6 +42,13 @@ const AppMenu = ({ authenticated }) => {
             icon: 'pi pi-desktop',
             command: (event) => { 
                 history.push("/home");
+            }
+        },
+        {
+            label: 'Artigos',
+            icon: 'pi pi-book',
+            command: (event) => {
+                history.push("/list-articles");
             }
         },
         {

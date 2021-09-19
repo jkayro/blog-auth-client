@@ -3,7 +3,7 @@ import { useParams, useHistory } from "react-router-dom";
 import { Fieldset } from 'primereact/fieldset';
 import { Button } from "primereact/button";
 
-const ViewArticle = ({ baseUrl, email, client, accessToken }) => {
+const ViewArticle = ({ baseUrl, isAuthenticated }) => {
 
     let [article, setArticle] = useState([]);
     const { id } = useParams();
@@ -12,9 +12,6 @@ const ViewArticle = ({ baseUrl, email, client, accessToken }) => {
         const getData = () => {
             const headers = { 
                 'Content-Type': 'application/json',
-                'uid': email,
-                'client': client,
-                'access-token': accessToken
             }
             const url = `${baseUrl}/api/articles/${id}`;
             fetch(url, { headers }, {method: "GET"} )
@@ -32,10 +29,13 @@ const ViewArticle = ({ baseUrl, email, client, accessToken }) => {
                 });
         };
         getData();
-    }, [email, client, accessToken, baseUrl, id]);
+    }, [baseUrl, id]);
     
     let history = useHistory();
-    const handleVoltar = useCallback(() => history.push('/list-articles'), [history]);
+
+    const handleVoltar = useCallback(() => {
+        isAuthenticated ? history.push('/list-user-articles') : history.push('/list-articles');
+    }, [history, isAuthenticated]);
     
     return (
         <>
