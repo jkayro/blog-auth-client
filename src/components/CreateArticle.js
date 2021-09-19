@@ -35,7 +35,7 @@ const CreateArticle = ({ email, client, accessToken, baseUrl }) => {
             body: json
         }).then(function(response) {
             if (response.ok) {
-                history.push('/list-articles');
+                history.push('/list-user-articles');
             }
             return response.json();
         })
@@ -44,7 +44,7 @@ const CreateArticle = ({ email, client, accessToken, baseUrl }) => {
         });
     };
 
-    const handleReturn = useCallback(() => history.push('/list-articles'), [history]);
+    const handleReturn = useCallback(() => history.push('/list-user-articles'), [history]);
 
     return (
         <Card title='Novo artigo' subTitle='Insira o título e o conteúdo para criar um novo artigo'>
