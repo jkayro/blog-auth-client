@@ -7,7 +7,7 @@ O frontend permite:
 3. Fazer login;
 4. Alterar senha baseado em instruções enviadas por e-mail;
 5. Alterar informações do usuário;
-6. Criar artigos (vistos apenas pelo usuário logado);
+6. Criar artigos;
 7. Visualizar artigos;
 8. Editar artigos;
 9. Deletar artigos;
@@ -29,11 +29,8 @@ O frontend permite:
 
 <https://eloquent-austin-a87d15.netlify.app/>
 
-Usuário: taggrafia@gmail.com / Senha: ek12k13
 
-Ou crie um usuário.
-
-_OBS.: O sistema pode demorar uns 15 segundos para fazer o primeiro login_
+_OBS.: O sistema pode demorar uns 15 segundos para iniciar _
 _pois a API fica dormindo no Heroku depois de um tempo sem acesso._
 
 .
