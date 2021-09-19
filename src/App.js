@@ -37,8 +37,8 @@ function App() {
   let [email, setEmail] = useState(getSessionOrDefault('email', ''));
   
 
-    const baseUrl = 'http://localhost:3001';
-    //const baseUrl = 'https://auth-api-blog.herokuapp.com';
+    //const baseUrl = 'http://localhost:3001';
+    const baseUrl = 'https://auth-api-blog.herokuapp.com';
 
   return (
     <Router basename={process.env.PUBLIC_URL}>
