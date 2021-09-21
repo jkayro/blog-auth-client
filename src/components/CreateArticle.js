@@ -11,20 +11,19 @@ const CreateArticle = ({ email, client, accessToken, baseUrl }) => {
     let [body, setBody] = useState('');
     
     let history = useHistory();
-
-
-    const handleSubmit = (e) => {
+    
+    const handleSubmit = async (e) => {
         e.preventDefault();
         
         let data = {}
         data.title = title;
         data.body = body;
-
+        
         const json = JSON.stringify(data);
 
         const url = `${baseUrl}/api/articles`;
 
-        fetch(url, {
+        const requestOptions = {
             method: 'POST',
             headers: { 
                 'Content-Type': 'application/json',
@@ -33,15 +32,15 @@ const CreateArticle = ({ email, client, accessToken, baseUrl }) => {
                 'access-token': accessToken 
             },
             body: json
-        }).then(function(response) {
-            if (response.ok) {
-                history.push('/list-user-articles');
-            }
-            return response.json();
-        })
-        .catch(error => {
-            console.log('>---ERROS---> ', error);
-        });
+        };
+
+        const response = await fetch(url, requestOptions);
+        const responseJson = await response.json();
+        
+        if (response.status === 201) {
+            history.push('/list-user-articles');
+        }
+        return responseJson;
     };
 
     const handleReturn = useCallback(() => history.push('/list-user-articles'), [history]);
