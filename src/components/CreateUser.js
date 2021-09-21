@@ -9,7 +9,7 @@ const CreateUser = ({ baseUrl }) => {
 
     let history = useHistory();
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         
         const data = new FormData(e.target);
@@ -26,17 +26,19 @@ const CreateUser = ({ baseUrl }) => {
 
         const url = `${baseUrl}/api/auth`;
 
-        fetch(url, {
+        const requestOptions = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: json
-        }).then(function(response) {
-            if (response.ok) {
-                history.push('/login');
-            }
-            return response.json();
-        });
+        };
+
+        const response = await fetch(url, requestOptions);
+        if (response.status === 200 || response.status === 201) {
+            history.push('/login');
+        }
+        return response.json();
     };
+    
 
     return (
         <Card title='Usuário' subTitle='Cadastrar novo usuário'>
