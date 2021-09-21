@@ -14,7 +14,7 @@ const ResetPassword = ({ baseUrl }) => {
     let [message, setMessage] = useState();
     let [displayMessage, setDisplayMessage] = useState(false);
     
-    const handleSubmit = (e) => {
+    const handleSubmit = async(e) => {
         e.preventDefault();
         
         let data = {}
@@ -25,7 +25,7 @@ const ResetPassword = ({ baseUrl }) => {
 
         const url = `${baseUrl}/api/auth/password`;
 
-        fetch(url, {
+        const requestOptions = {
             method: 'PUT',
             headers: { 
                 'Content-Type': 'application/json',
@@ -35,19 +35,17 @@ const ResetPassword = ({ baseUrl }) => {
                 'token': query.get("token")
             },
             body: json
-        }).then(function(response) {
-            if (response.ok) {
-                setMessage('Senha alterada com sucesso!');
-                setDisplayMessage(true);
-            }
-            return response.json();
-        });
+        };
+        const response = await fetch(url, requestOptions);
+        if (response.ok) {
+            setMessage('Senha alterada com sucesso! Faça o login...');
+            setDisplayMessage(true);
+        }
     };
 
-
-  return (
+    return (
     <>
-        <Card title='Login' subTitle='Autenticar-se no sistema'>
+        <Card title='Nova senha' subTitle='Digite a nova senha e confirme'>
         <br/>
         <form onSubmit={ handleSubmit }>
             <div className="p-fluid">

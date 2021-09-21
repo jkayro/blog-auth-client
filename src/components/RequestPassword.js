@@ -9,28 +9,26 @@ const RequestPassword = ({ baseUrl }) => {
     let [email, setEmail] = useState();
     let [displayMessage, setDisplayMessage] = useState(false);
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         
         let object = {};
         object.email = email;
         
-        console.log(object);
-
         let json = JSON.stringify(object);
 
         const url = `${baseUrl}/api/auth/password`;
 
-        fetch(url, {
+        const requestOPtions = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: json
-        }).then(function(resp) {
-            if (resp.status === 200) {
-                setDisplayMessage(true);
-            }
-            return resp.json();
-        });
+        };
+
+        const response = await fetch(url, requestOPtions);
+        if (response.ok) {
+            setDisplayMessage(true);
+        }
     };
     
     return (

@@ -6,33 +6,30 @@ import { Button } from "primereact/button";
 const ListArticles = ({ baseUrl, email, client, accessToken }) => {
     
     let [articles, setArticles] = useState([]);
-
         
-    useEffect(() => {
-        const getData = () => {
-            const headers = { 
+    const getData = useCallback(async() => {
+
+        const requestOptions = {
+            method: 'GET',
+            headers: { 
                 'Content-Type': 'application/json',
                 'uid': email,
                 'client': client,
                 'access-token': accessToken
             }
-            const url = `${baseUrl}/api/articles`;
-            fetch(url, { headers }, {method: "GET"} )
-                .then(async response => {
-                    const data = await response.json();
-                    if (!response.ok) {
-                        const error = (data && data.message) || response.statusText;
-                        window.location = '/login';
-                        return Promise.reject(error);
-                    }
-                    setArticles(data);
-                })
-                .catch(error => {
-                    console.error('---ERROS---', error);
-                });
-        };
-        getData();
+        }
+        const url = `${baseUrl}/api/articles`;
+        const response = await fetch(url, requestOptions);
+        const data = await response.json();
+        if (!response.ok) {
+            window.location = '/login';
+        }
+        setArticles(data);
     }, [email, client, accessToken, baseUrl]);
+
+    useEffect(() => {
+        getData();
+    }, [getData]);
 
     let history = useHistory();
     const handleView = useCallback((id) => history.push(`/view-article/${id}`), [history]);

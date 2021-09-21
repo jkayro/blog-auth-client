@@ -8,28 +8,28 @@ const ViewArticle = ({ baseUrl, isAuthenticated }) => {
     let [article, setArticle] = useState([]);
     const { id } = useParams();
 
-    useEffect(() => {
-        const getData = () => {
-            const headers = { 
-                'Content-Type': 'application/json',
-            }
-            const url = `${baseUrl}/api/articles/${id}`;
-            fetch(url, { headers }, {method: "GET"} )
-                .then(async response => {
-                    const data = await response.json();
-                    if (!response.ok) {
-                        const error = (data && data.message) || response.statusText;
-                        window.location = '/login';
-                        return Promise.reject(error);
-                    }
-                    setArticle(data);
-                })
-                .catch(error => {
-                    console.error('---ERROS---', error);
-                });
+    const getData = useCallback(async() => {
+
+        const url = `${baseUrl}/api/articles/${id}`;
+        
+        const requestOption = {
+            method: 'GET',
+            headers: {'Content-Type': 'application/json'}
         };
-        getData();
+        const response = await fetch(url, requestOption);
+        const data = await response.json();
+        
+        if (!response.ok) {
+            window.location = '/login';
+        }
+
+        setArticle(data);
+
     }, [baseUrl, id]);
+
+    useEffect(() => {
+        getData();
+    }, [getData]);
     
     let history = useHistory();
 

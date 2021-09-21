@@ -9,7 +9,7 @@ const Login = ({ baseUrl, setIsAuthenticated, setEmail, setClient, setAccessToke
 
     let history = useHistory();
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         
         const data = new FormData(e.target);
@@ -25,26 +25,25 @@ const Login = ({ baseUrl, setIsAuthenticated, setEmail, setClient, setAccessToke
 
         const url = `${baseUrl}/api/auth/sign_in`;
 
-        fetch(url, {
+        const requestOptions = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: json
-        }).then(function(resp) {
-            if (resp.status === 200) {
+        };
 
-                setIsAuthenticated(true);
-                setEmail(sessionStorage.getItem('email'));
-                setClient(resp.headers.get('client'));
-                setAccessToken(resp.headers.get('access-token'));
+        const response = await fetch(url, requestOptions);
+        if (response.ok) {
+            setIsAuthenticated(true);
+            setEmail(sessionStorage.getItem('email'));
+            setClient(response.headers.get('client'));
+            setAccessToken(response.headers.get('access-token'));
 
-                sessionStorage.setItem('isAuthenticated', 'true');
-                sessionStorage.setItem('client', resp.headers.get('client'));
-                sessionStorage.setItem('accessToken', resp.headers.get('access-token'));
+            sessionStorage.setItem('isAuthenticated', 'true');
+            sessionStorage.setItem('client', response.headers.get('client'));
+            sessionStorage.setItem('accessToken', response.headers.get('access-token'));
 
-                history.push("/");
-            }
-            return resp.json();
-        });
+            history.push("/");
+        }
     };
     
     const handleRequestPassword = useCallback(() => history.push('/request-password'), [history]);

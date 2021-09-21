@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useHistory, Redirect } from "react-router-dom";
 
 const Logout = ({ baseUrl, email, client, accessToken, 
@@ -7,46 +7,40 @@ const Logout = ({ baseUrl, email, client, accessToken,
     let [status, setStatus] = useState(0);
     let history = useHistory();
 
-    useEffect(() => {
-        const logout = () =>{
-            const url = `${baseUrl}/api/auth/sign_out`;
-            fetch(url, {
-                method: 'DELETE',
-                headers: { 
-                    'uid': email,
-                    'client': client,
-                    'access-token': accessToken
-                }}).then(function(resp) {
-                if (resp.status === 200) {
+    const logout = useCallback(async() =>{
+        const url = `${baseUrl}/api/auth/sign_out`;
 
-                    setStatus(200);
-
-                    setEmail('');
-                    setClient('');
-                    setAccessToken('');
-                    setIsAuthenticated(false);
-
-                    sessionStorage.removeItem('isAuthenticated');
-                    sessionStorage.removeItem('email');
-                    sessionStorage.removeItem('client');
-                    sessionStorage.removeItem('accessToken');
-                    
-                    history.push('/login');
-                }
-                return resp.json();
-            })
-            .catch(error => {
-                console.error('---ERROS---', error);
-            });
+        const requestOptions = {
+            method: 'DELETE',
+            headers: { 
+                'uid': email,
+                'client': client,
+                'access-token': accessToken
+            }
         };
-        logout();
+        const response = await fetch(url, requestOptions);
+            if (response.ok) {
+                setStatus(200);
+                setEmail('');
+                setClient('');
+                setAccessToken('');
+                setIsAuthenticated(false);
+                sessionStorage.removeItem('isAuthenticated');
+                sessionStorage.removeItem('email');
+                sessionStorage.removeItem('client');
+                sessionStorage.removeItem('accessToken');
+                history.push('/login');
+            }
     }, [baseUrl, email, client, accessToken, setIsAuthenticated, setEmail, setClient, setAccessToken, history]);
+
+    useEffect(() => {
+        logout();
+    }, [logout]);
 
     return(
         <>
             {status === 200 ? <Redirect to='/login' /> : <h4>conectado</h4>}
         </>
     );
-
 };
 export default Logout;
