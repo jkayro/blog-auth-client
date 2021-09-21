@@ -35,12 +35,10 @@ const CreateArticle = ({ email, client, accessToken, baseUrl }) => {
         };
 
         const response = await fetch(url, requestOptions);
-        const responseJson = await response.json();
-        
-        if (response.status === 201) {
+        if (response.status === 200 || response.status === 201) {
             history.push('/list-user-articles');
         }
-        return responseJson;
+        return response;
     };
 
     const handleReturn = useCallback(() => history.push('/list-user-articles'), [history]);
