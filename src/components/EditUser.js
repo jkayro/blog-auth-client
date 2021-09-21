@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 import { Card } from 'primereact/card';
@@ -10,34 +10,35 @@ const EditUser = ({ email, client, accessToken, baseUrl }) => {
     let [name, setName] = useState();
     let [nickname, setNickname] = useState();
 
-    useEffect(() => {
-        const getData = () => {
-            const headers = { 
+    const getData = useCallback(async () => {
+
+        const requestOptions = {
+            method: 'GET',
+            headers: { 
                 'Content-Type': 'application/json',
                 'uid': email,
                 'client': client,
                 'access-token': accessToken
             }
-            const url = `${baseUrl}/api/auth/validate_token`;
-            fetch(url, { headers }, {method: "GET"} )
-                .then(async response => {
-                    const data = await response.json();
-                    if (!response.ok) {
-                        const error = (data && data.message) || response.statusText;
-                        window.location = '/login';
-                        return Promise.reject(error);
-                    }
-                    setName(data.data.name);
-                    setNickname(data.data.nickname);
-                })
-                .catch(error => {
-                    console.log('>---ERROS---> ', error);
-                });
         };
-        getData();
+
+        const url = `${baseUrl}/api/auth/validate_token`;
+        
+        const response = await fetch(url, requestOptions);
+        const data = await response.json();
+        if (!response.ok) {
+            window.location = '/login';
+        }
+        setName(data.data.name);
+        setNickname(data.data.nickname);
+
     }, [email, client, accessToken, baseUrl]);
 
-    const handleSubmit = (e) => {
+    useEffect(() => {
+        getData();
+    }, [getData]);
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
         
         let data = {};
@@ -48,7 +49,7 @@ const EditUser = ({ email, client, accessToken, baseUrl }) => {
 
         const url = `${baseUrl}/api/auth`;
 
-        fetch(url, {
+        const requestOptions = {
             method: 'PUT',
             headers: { 
                 'Content-Type': 'application/json',
@@ -57,12 +58,13 @@ const EditUser = ({ email, client, accessToken, baseUrl }) => {
                 'access-token': accessToken 
             },
             body: json
-        }).then(function(response) {
-            if (response.ok) {
-                setDisplayMessage(true);
-            }
-            return response.json();
-        });
+        };
+
+        const response = await fetch(url, requestOptions);
+
+        if (response.ok) {
+            setDisplayMessage(true);
+        }
     };
 
     return (
