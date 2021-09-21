@@ -17,35 +17,39 @@ const EditArticle = ({ email, client, accessToken, baseUrl }) => {
     
     let history = useHistory();
 
-    useEffect(() => {
-        const getData = () => {
-            const headers = { 
+    const getData = useCallback(async () => {
+
+        const requestOptions = {
+            method: 'GET',
+            headers: { 
                 'Content-Type': 'application/json',
                 'uid': email,
                 'client': client,
                 'access-token': accessToken
             }
-            const url = `${baseUrl}/api/articles/${id}`;
-            fetch(url, { headers }, {method: "GET"} )
-                .then(async response => {
-                    const data = await response.json();
-                    if (!response.ok) {
-                        const error = (data && data.message) || response.statusText;
-                        window.location = '/login';
-                        return Promise.reject(error);
-                    }
-                    setArticle(data);
-                    setTitle(data.title);
-                    setBody(data.body);
-                })
-                .catch(error => {
-                    console.log('>---ERROS---> ', error);
-                });
         };
-        getData();
-    }, [email, client, accessToken, baseUrl, id]);
 
-    const handleSubmit = (e) => {
+        const url = `${baseUrl}/api/articles/${id}`;
+
+        const response = await fetch(url, requestOptions);
+        const data = await response.json();
+        
+        if (response.ok) {
+            setArticle(data);
+            setTitle(data.title);
+            setBody(data.body);
+        } else {
+            window.location = '/login';
+        }
+
+    }, [id, baseUrl, email, client, accessToken]);
+    
+
+    useEffect(() => {
+        getData();
+    }, [getData]);
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
         
         let data = {};
@@ -56,7 +60,7 @@ const EditArticle = ({ email, client, accessToken, baseUrl }) => {
 
         const url = `${baseUrl}/api/articles/${id}`;
 
-        fetch(url, {
+        const requestOptions = {
             method: 'PUT',
             headers: { 
                 'Content-Type': 'application/json',
@@ -65,22 +69,23 @@ const EditArticle = ({ email, client, accessToken, baseUrl }) => {
                 'access-token': accessToken 
             },
             body: json
-        }).then(function(response) {
-            if (response.ok) {
-                setDisplayMessage(true);
-            }
-            return response.json();
-        });
+        };
+
+        const response = await fetch(url, requestOptions);
+
+        if (response.ok) {
+            setDisplayMessage(true);
+        }
     };
 
-    const handleDelete = (e) => {
+    const handleDelete = async (e) => {
         e.preventDefault();
 
         if (window.confirm("Você deseja realmente deletar o artigo definitivamente?") === true) {
 
             const url = `${baseUrl}/api/articles/${id}`;
 
-            fetch(url, {
+            const requestOptions = {
                 method: 'DELETE',
                 headers: { 
                     'Content-Type': 'application/json',
@@ -88,12 +93,13 @@ const EditArticle = ({ email, client, accessToken, baseUrl }) => {
                     'client': client,
                     'access-token': accessToken 
                 },
-            }).then(function(response) {
-                if (response.ok) {
-                    history.push('/list-user-articles');
-                }
-                return response.json();
-            });
+            };
+
+            const response = await fetch(url, requestOptions);
+
+            if (response.ok) {
+                history.push('/list-user-articles');
+            }
         }
     };
 

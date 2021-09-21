@@ -33,10 +33,10 @@ const CreateUser = ({ baseUrl }) => {
         };
 
         const response = await fetch(url, requestOptions);
-        if (response.status === 200 || response.status === 201) {
+        if (response.ok) {
             history.push('/login');
         }
-        return response.json();
+        return response;
     };
     
 

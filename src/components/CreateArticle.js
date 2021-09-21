@@ -35,7 +35,7 @@ const CreateArticle = ({ email, client, accessToken, baseUrl }) => {
         };
 
         const response = await fetch(url, requestOptions);
-        if (response.status === 200 || response.status === 201) {
+        if (response.ok) {
             history.push('/list-user-articles');
         }
         return response;
