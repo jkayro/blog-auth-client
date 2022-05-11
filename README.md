@@ -30,6 +30,4 @@ O frontend permite:
 <https://eloquent-austin-a87d15.netlify.app/>
 
 
-_OBS.: O sistema pode demorar uns 15 segundos para iniciar pois a API fica dormindo no Heroku depois de um tempo sem acesso._
-
 .
